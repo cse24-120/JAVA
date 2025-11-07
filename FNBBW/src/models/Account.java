@@ -12,6 +12,10 @@ public abstract class Account {
     protected double balance;
     protected String branch;
     protected List<Transaction> transactions;
+    protected String companyName;//cheque
+    protected String companyAddress;//cheque
+
+
 
     public Account(String accountNo, String branch) {
         this.accountNo = accountNo;
@@ -24,6 +28,8 @@ public abstract class Account {
     public abstract void deposit(double amount);
     public abstract void withdraw(double amount);
     public abstract void calculateInterest();
+    public abstract String getType();
+
 
     // Transaction management
     public void addTransaction(Transaction txn) {
@@ -46,6 +52,16 @@ public abstract class Account {
     public double getBalance() {
         return balance;
     }
+
+   // Cheque accessors
+   public String getCompanyName() {
+       return companyName;
+   }
+   
+   public String getCompanyAddress() {
+       return companyAddress;
+   }
+
 
     // Display format for ComboBox or logs
     @Override

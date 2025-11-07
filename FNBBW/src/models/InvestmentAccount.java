@@ -58,4 +58,8 @@ public class InvestmentAccount extends Account implements InterestBearing {
             balance
         ));
     }
-}
+   @Override
+   public String getType() {
+       return "investment";
+   }
+ }

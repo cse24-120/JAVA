@@ -35,7 +35,11 @@ public abstract class Customer {
     public List<Account> getAccounts() {
         return accounts;
     }
-
+    
+   public void setAccounts(List<Account> accounts) {
+       this.accounts = accounts;
+   }
+   
     public String getUsername() {
         return username;
     }

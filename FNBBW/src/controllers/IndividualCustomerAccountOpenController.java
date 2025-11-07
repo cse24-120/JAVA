@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import models.Customer;
 import models.Individual;
 import repository.CustomerRepository;
+import repository.AccountRepository;
 import session.Session;
 
 import java.net.URL;
@@ -66,6 +67,7 @@ public class IndividualCustomerAccountOpenController implements Initializable {
             if (IndividualSavingsOpenButton.isSelected()) {
                 double deposit = Double.parseDouble(IndividualSavingsDepositAmountTextField.getText().trim());
                 customer.openAccount("savings", deposit, null, null);
+                AccountRepository.addAccount(customer.getAccounts().get(customer.getAccounts().size() - 1), customer);
             }
 
             if (IndividualChequeOpenButton.isSelected()) {
@@ -79,6 +81,7 @@ public class IndividualCustomerAccountOpenController implements Initializable {
                 }
 
                 customer.openAccount("cheque", deposit, companyName, companyAddress);
+                AccountRepository.addAccount(customer.getAccounts().get(customer.getAccounts().size() - 1), customer);
             }
 
             if (IndividualInvestmentOpenButton.isSelected()) {
@@ -88,9 +91,10 @@ public class IndividualCustomerAccountOpenController implements Initializable {
                     return;
                 }
                 customer.openAccount("investment", deposit, null, null);
+                AccountRepository.addAccount(customer.getAccounts().get(customer.getAccounts().size() - 1), customer);
             }
 
-            CustomerRepository.addCustomer(customer);
+            
             showAlert("Success", "Account(s) created successfully. Please sign in to continue.");
             switchScene("BankSystemSignInPage.fxml", IndividualSignUpFinishButton);
 

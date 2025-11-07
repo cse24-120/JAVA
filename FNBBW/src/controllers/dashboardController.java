@@ -37,18 +37,28 @@ public class dashboardController implements Initializable {
         Customer customer = Session.getCurrentCustomer();
         double total = 0.0;
 
+        // Clear all fields first
+        SavingsAccountNoField.clear();
+        SavingsBalanceField.clear();
+        InvestmentAccountNoField.clear();
+        InvestmentBalanceField.clear();
+        ChequeAccountNoField.clear();
+        ChequeBalanceField.clear();
+        TotalBalanceField.clear();
+
         for (Account acc : customer.getAccounts()) {
-            total += acc.getBalance();
+            double balance = acc.getBalance();
+            total += balance;
 
             if (acc instanceof SavingsAccount) {
                 SavingsAccountNoField.setText(acc.getAccountNo());
-                SavingsBalanceField.setText(String.format("%.2f", acc.getBalance()));
+                SavingsBalanceField.setText(String.format("%.2f", balance));
             } else if (acc instanceof InvestmentAccount) {
                 InvestmentAccountNoField.setText(acc.getAccountNo());
-                InvestmentBalanceField.setText(String.format("%.2f", acc.getBalance()));
+                InvestmentBalanceField.setText(String.format("%.2f", balance));
             } else if (acc instanceof ChequeAccount) {
                 ChequeAccountNoField.setText(acc.getAccountNo());
-                ChequeBalanceField.setText(String.format("%.2f", acc.getBalance()));
+                ChequeBalanceField.setText(String.format("%.2f", balance));
             }
         }
 

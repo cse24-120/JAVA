@@ -46,6 +46,7 @@ public class Transaction {
     public double getBalanceAfter() {
         return balanceAfter;
     }
+    
 
     // Optional: for logging or ListView fallback
     public String getTransactionDetails() {

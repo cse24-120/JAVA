@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Customer;
 import repository.CustomerRepository;
+import repository.AccountRepository;
 import session.Session;
 
 import java.io.IOException;
@@ -40,7 +41,13 @@ public class SignInPage {
 
         for (Customer customer : registeredCustomers) {
             if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
+                // Load accounts from database
+                customer.setAccounts(AccountRepository.getAccountsByCustomer(customer));
+
+                // Set session
                 Session.setCurrentCustomer(customer);
+
+                //  Navigate to dashboard
                 switchScene("DashBoard.fxml", SignInButton);
                 return;
             }

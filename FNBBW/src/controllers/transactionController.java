@@ -10,9 +10,11 @@ import javafx.stage.Stage;
 import models.Account;
 import models.Transaction;
 import session.Session;
+import repository.TransactionRepository;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,21 +39,30 @@ public class transactionController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         FilterByDropDown.getItems().addAll(Session.getCurrentCustomer().getAccounts());
 
-        // Set up column bindings
         IdColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTransactionId()));
         DateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
         TransactionTypeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getType()));
         AmountColumn.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getAmount()).asObject());
         ReferenceColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getReference()));
         balanceColumn.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getBalanceAfter()).asObject());
+
+        FilterByDropDown.setOnAction(e -> {
+            Account selected = FilterByDropDown.getValue();
+            if (selected != null) {
+                TransactionHistoryTable.setItems(FXCollections.observableArrayList(
+                    TransactionRepository.getTransactionsByAccount(selected.getAccountNo())
+                ));
+            }
+        });
     }
 
     @FXML
     void FilterBy(ActionEvent event) {
         Account selected = FilterByDropDown.getValue();
         if (selected != null) {
-            TransactionHistoryTable.getItems().clear();
-            TransactionHistoryTable.getItems().addAll(selected.getTransactions());
+            TransactionHistoryTable.setItems(FXCollections.observableArrayList(
+                TransactionRepository.getTransactionsByAccount(selected.getAccountNo())
+            ));
         }
     }
 

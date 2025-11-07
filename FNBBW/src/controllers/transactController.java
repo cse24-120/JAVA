@@ -12,6 +12,8 @@ import models.Customer;
 import models.SavingsAccount;
 import models.Transaction;
 import session.Session;
+import repository.TransactionRepository;
+import repository.AccountRepository;
 
 import java.net.URL;
 import java.util.Date;
@@ -52,6 +54,7 @@ public class transactController implements Initializable {
 
         if (selected != null && amount > 0 && reference != null && !reference.isEmpty() && date != null) {
             selected.deposit(amount);
+            AccountRepository.updateBalance(selected);
             Transaction txn = new Transaction(
                 UUID.randomUUID().toString(),
                 date,
@@ -61,6 +64,7 @@ public class transactController implements Initializable {
                 selected.getBalance()
             );
             selected.addTransaction(txn);
+            TransactionRepository.addTransaction(txn, selected);
             showAlert("Deposit Successful", "Deposited BWP " + String.format("%.2f", amount), Alert.AlertType.INFORMATION);
             clearFields();
         } else {
@@ -80,6 +84,7 @@ public class transactController implements Initializable {
                 showAlert("Withdrawal Blocked", "Withdrawals are not allowed from a Savings Account.", Alert.AlertType.WARNING);
             } else {
                 selected.withdraw(amount);
+                AccountRepository.updateBalance(selected);
                 Transaction txn = new Transaction(
                     UUID.randomUUID().toString(),
                     date,
@@ -89,6 +94,7 @@ public class transactController implements Initializable {
                     selected.getBalance()
                 );
                 selected.addTransaction(txn);
+                TransactionRepository.addTransaction(txn, selected);
                 showAlert("Withdrawal Successful", "Withdrew BWP " + String.format("%.2f", amount), Alert.AlertType.INFORMATION);
             }
             clearFields();

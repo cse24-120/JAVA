@@ -10,12 +10,19 @@ public class ChequeAccount extends Account {
 
     private String companyName;
     private String companyAddress;
-
+    
     public ChequeAccount(String accountNo, String branch, String companyName, String companyAddress) {
-        super(accountNo, branch);
-        this.companyName = companyName;
-        this.companyAddress = companyAddress;
-    }
+    super(accountNo, branch);
+    this.companyName = companyName;
+    this.companyAddress = companyAddress;
+}
+
+   public ChequeAccount(String accountNo, String branch, double balance, String companyName, String companyAddress) {
+       super(accountNo, branch);
+       this.balance = balance;
+       this.companyName = companyName;
+       this.companyAddress = companyAddress;
+   }
 
     @Override
     public void deposit(double amount) {
@@ -51,4 +58,8 @@ public class ChequeAccount extends Account {
     public void calculateInterest() {
         // Cheque accounts do not earn interest
     }
+   @Override
+   public String getType() {
+       return "cheque";
+   }
 }

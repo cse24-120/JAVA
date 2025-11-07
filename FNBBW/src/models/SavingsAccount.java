@@ -7,9 +7,13 @@ import java.util.Date;
  */
 public class SavingsAccount extends Account implements InterestBearing {
 
-    public SavingsAccount(String accountNo, String branch) {
-        super(accountNo, branch);
-    }
+   public SavingsAccount(String accountNo, String branch) {
+    super(accountNo, branch);
+}
+   public SavingsAccount(String accountNo, String branch, double balance) {
+       super(accountNo, branch);
+       this.balance = balance;
+   }
 
     @Override
     public void deposit(double amount) {
@@ -42,4 +46,9 @@ public class SavingsAccount extends Account implements InterestBearing {
             balance
         ));
     }
-}
+    
+   @Override
+   public String getType() {
+       return "savings";
+   }
+ }
